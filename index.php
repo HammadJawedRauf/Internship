@@ -30,11 +30,16 @@ $total_marks=$this-> english_marks + $this-> math_marks + $this-> computer_marks
 
 
 function percentage(){
+
 $p=$this-> english_marks + $this-> math_marks + $this-> computer_marks;
 $d=$p / $this-> marks;
 $per=$d*100;
-echo "percentage:".$per."<br>";
+
+?>
+<h3>Percentage:</h3>
+<h3><?php echo $per;?><br></h3>
 return;
+<?php
 }
 
 
@@ -76,26 +81,22 @@ echo "Roll_No:".$this->roll_no."<br>";
 }
 }
  $Markssheet=new Student();
- $Markssheet->Information("Ali",300,123,70,80,90);
+ $Markssheet->Information("Aliyan",300,123,60,80,90);
  $Markssheet->print();
- $Markssheet->percentage();
- $Markssheet->total_marks();
- $Markssheet->grade();
- 
+  $Markssheet->percentage();
+  $Markssheet->total_marks();
+  $Markssheet->grade();
+ ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
 
-
-?>
-
-
-
-
-
-
-
-
-
-
-
-
+</body>
+</html>
 
