@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -50,52 +49,74 @@ $stmt->execute([
 ':Rname'=>$ROLLNO,
 ]);
  echo "<br>Student Registered successfully!";
+}
 
-$sql = "SELECT * FROM student WHERE STD_ID = :id"; 
- $stmt = $con->prepare($sql);
- $stmt->execute([':id' => $id]);
- $row = $stmt->fetch(PDO::FETCH_ASSOC);
+elseif(isset($_POST['updatedata'])){
+$NAME="";
+$ROLLNO="";
+$PHONE="";
+$DEPARTMENT="";
+$DOB="";
 
 
+$NAME=$_POST["Sname"];
+$PHONE=$_POST["Mname"];
+$DEPARTMENT=$_POST["Tname"];
+$DOB=$_POST["Dname"];
+$ROLLNO=$_POST["Rname"]; 
+$ids=2;
+/*$NAME = $_POST["NAME"];
+$ids = $_POST["STD_ID"];
+$ROLLNO = $_POST["ROLLNO"];
+$DEPARTMENT = $_POST["DEPARTMENT"];
+$PHONE = $_POST["PHONE"]; 
+*/
+$sqls = "UPDATE student
+        SET NAME = :NAME , ROLLNO = :ROLLNO , DEPARTMENT = :DEPARTMENT, PHONE = :PHONE
+        WHERE STD_ID = :ids";
 
+$st = $con->prepare($sqls);
 
+$st->execute([
+    ':NAME' => $NAME,
+    ':ROLLNO' => $ROLLNO,
+    ':ids' => $ids
+]);
 
+echo "Student updated successfully!<br>";
+}
+}
+
+$row=[];
+$sql = "SELECT * FROM student"; 
+ $stmt = $con->query($sql);
+ if($stmt->rowcount() > 0){
+ $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div>
-        <button class="btn btn-primary my-5 "><a href="SRS.PHP" CLASS=text-light>Add Student</a></button>
-    </div>
-    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">STD_ID</th>
-      <th scope="col">NAME</th>
-      <th scope="col">ROLLNO</th>
-      <th scope="col">PHONE</th>
-     <th scope="col">DEPARTMENT</th>
-    <th scope="col">DOB</th>
+<h1>Student Table</h1>
+<table border="1">
+  <tr>
+      <th >STD_ID</th>
+      <th >NAME</th>
+      <th >ROLLNO</th>
+      <th >PHONE</th>
+     <th >DEPARTMENT</th>
+    <th >DOB</th>
+    <th >ACTION</th>
     
     </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td></td>
-      <td><?php echo "<br>Student ID:".$row['STD_ID'];?></td>
-      <td><?php echo "<br>Student Name:".$row['NAME'];?></td>
-      <td><?php echo "<br>Student RollNo:".$row['ROLLNO'];?></td>
-      <td><?php echo "<br>Student Phone:".$row['PHONE'];?></td>
-      
-    </tr>
-    
-  </tbody>
+  <?php foreach($row as $r){?>
+  <tr><td><?php echo$r['STD_ID'];?></td>
+  <td><?php echo$r['NAME'];?></td>
+  <td><?php echo$r['ROLLNO']?></td>
+<td><?php echo$r['DEPARTMENT']?></td>
+<td><?php echo$r['DOB']?></td>
+<td><?php echo$r['PHONE']?></td>
+<td><a href="delete.php" name="deletebtn" >Delete</a>
+<a href="update.php">Update</a>
+</td></tr>
+<?php } ?>
+<a href="SRS.PHP" >Add Student</a>
 </table>
-</body>
-</html>
+
