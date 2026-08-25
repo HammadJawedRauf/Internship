@@ -1,43 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method = "post" action="data.php"> 
-        <button type = "submit" name= "delete"> Delete</button>
+<?php
+require 'data.php';
 
-</form>
+$id = filter_input(INPUT_POST, 'STD_ID');
+$NAME = filter_input(INPUT_POST, 'Sname');
+$ROLLNO = filter_input(INPUT_POST, 'Rname');
+$PHONE = filter_input(INPUT_POST, 'Mname');
+$DEPARTMENT = filter_input(INPUT_POST, 'Tname');
+$DOB = filter_input(INPUT_POST, 'Dname');
 
-</body>
-</html>
+$sqls = $con->prepare("
+    UPDATE student
+    SET 
+        NAME = :NAME,
+        ROLLNO = :ROLLNO,
+        DEPARTMENT = :DEPARTMENT,
+        PHONE = :PHONE,
+        DOB = :DOB
+    WHERE STD_ID = :id
+");
 
-<form method="POST">
+$sqls->bindValue(':NAME', $NAME);
+$sqls->bindValue(':ROLLNO', $ROLLNO);
+$sqls->bindValue(':PHONE', $PHONE);
+$sqls->bindValue(':DEPARTMENT', $DEPARTMENT);
+$sqls->bindValue(':DOB', $DOB);
+$sqls->bindValue(':id', $id);
 
+$sqls->execute();
 
-                <input
-                    type="hidden"
-                    name="id"
-                    value="<?php echo $student['STD_ID']; ?>"
-                >
-
-                <button type="submit" name="delete">
-                    Delete
-                </button>
-
-
-            </form>
-
-        </td>
-
-    </tr>
-
-
-
-</table>
-
-</body>
-
-</html> 
+echo "Updated Successfully";
+header("Location:display.php");
+exit;
+?>
