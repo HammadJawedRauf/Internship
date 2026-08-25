@@ -51,40 +51,6 @@ $stmt->execute([
  echo "<br>Student Registered successfully!";
 }
 
-elseif(isset($_POST['updatedata'])){
-$NAME="";
-$ROLLNO="";
-$PHONE="";
-$DEPARTMENT="";
-$DOB="";
-
-
-$NAME=$_POST["Sname"];
-$PHONE=$_POST["Mname"];
-$DEPARTMENT=$_POST["Tname"];
-$DOB=$_POST["Dname"];
-$ROLLNO=$_POST["Rname"]; 
-$ids=2;
-/*$NAME = $_POST["NAME"];
-$ids = $_POST["STD_ID"];
-$ROLLNO = $_POST["ROLLNO"];
-$DEPARTMENT = $_POST["DEPARTMENT"];
-$PHONE = $_POST["PHONE"]; 
-*/
-$sqls = "UPDATE student
-        SET NAME = :NAME , ROLLNO = :ROLLNO , DEPARTMENT = :DEPARTMENT, PHONE = :PHONE
-        WHERE STD_ID = :ids";
-
-$st = $con->prepare($sqls);
-
-$st->execute([
-    ':NAME' => $NAME,
-    ':ROLLNO' => $ROLLNO,
-    ':ids' => $ids
-]);
-
-echo "Student updated successfully!<br>";
-}
 }
 
 $row=[];
@@ -109,14 +75,13 @@ $sql = "SELECT * FROM student";
   <?php foreach($row as $r){?>
   <tr><td><?php echo$r['STD_ID'];?></td>
   <td><?php echo$r['NAME'];?></td>
-  <td><?php echo$r['ROLLNO']?></td>
-<td><?php echo$r['DEPARTMENT']?></td>
-<td><?php echo$r['DOB']?></td>
-<td><?php echo$r['PHONE']?></td>
-<td><a href="delete.php" name="deletebtn" >Delete</a>
-<a href="update.php">Update</a>
+  <td><?php echo$r['ROLLNO'];?></td>
+<td><?php echo$r['DEPARTMENT'];?></td>
+<td><?php echo$r['DOB'];?></td>
+<td><?php echo$r['PHONE'];?></td>
+<td><a href="delete.php?STD_ID=<?=$r['STD_ID'];?>" >Delete</a>
+<a href="update.php?STD_ID=<?=$r['STD_ID'];?>">Update</a>
 </td></tr>
 <?php } ?>
 <a href="SRS.PHP" >Add Student</a>
 </table>
-
