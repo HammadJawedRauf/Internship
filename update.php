@@ -1,4 +1,41 @@
+<?php
+require 'data.php';
+$update=[];
+$id=filter_input(INPUT_GET,'STD_ID');
 
+if($id){
+
+$sql=$con->prepare("SELECT * FROM student WHERE STD_ID = :id");
+$sql->bindValue(':id',$id);
+$sql->execute();
+
+if($sql->rowcount()>0){
+
+$update=$sql->fetch(PDO::FETCH_ASSOC);
+
+}
+
+
+else{
+    header("location:SRS.PHP");
+    exit;
+
+}
+
+
+
+}else{
+    header("location:SRS.PHP");}
+
+
+
+
+
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,27 +82,31 @@ display:block;
 </style>
 <body>
 
-    <fORM method = "POST" action="display.php" >
+    <fORM method = "POST" action="update_action.php" >
      <h1>Student Registration Form</h1>
+
+
    <label for="Name">Student Name</label>
-   <input type="text" name="Sname"  required><br>  
+   <input type="hidden" name="STD_ID" value="<?=$update['STD_ID']; ?>" required><br>  
+   
+   <input type="text" name="Sname" value="<?=$update['NAME']; ?>" required><br>  
    
    <label for="rollno">Student Roll No</label>
-   <input type="text" name="Rname"  required><br>
+   <input type="text" name="Rname" value="<?=$update['ROLLNO']; ?>" required><br>
    
    <label for="DOB">Student DOB</label>
-   <input type="date" name="Dname"  required><br> 
+   <input type="date" name="Dname" value="<?=$update['DOB']; ?>" required><br> 
    
    <label for="phone">Student Mobile No</label>
-   <input type="tel" name="Mname"  required><br> 
+   <input type="tel" name="Mname" value="<?=$update['PHONE']; ?>" ><br> 
    
    <label for="Text"  >Choose Department </label>
-   <SELECT name="Tname" required >
-   <OPTION VALUE=""></OPTION>
-        <OPTION value="IT">IT</OPTION>
-        <OPTION value="SE">SE</OPTION>
-        <OPTION value="CS">CS</OPTION>
-</SELECT><br>
+   <select name="Tname" required>
+    <option value="">Select Department</option>
+    <option value="IT" <?=($update['DEPARTMENT'] == 'IT') ? 'selected' : ''?>>IT</option>
+    <option value="SE" <?=($update['DEPARTMENT'] == 'SE') ? 'selected' : ''?>>SE</option>
+    <option value="CS" <?=($update['DEPARTMENT'] == 'CS') ? 'selected' : ''?>>CS</option>
+</select><br>
     
    <label for="text">Gender</label>
     <label for="Text"><input type="checkbox" >Male</label>
@@ -82,7 +123,6 @@ display:block;
 
 </body>
 </html>
-
 
 
 
