@@ -8,6 +8,14 @@
 </head>
 <style>
 
+btn{
+   
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+
+
+}
 label{
     display:block
 
@@ -68,60 +76,28 @@ display:block;
 </SELECT><br>
     
    <label for="text">Gender</label>
-    <label for="Text"><input type="checkbox" >Male</label>
+    <label for="Text"><input type="checkbox" name="male">Male</label>
 
     
-    <label for="Text"> <input type="checkbox" >Female</label>
+    <label for="Text"> <input type="checkbox" name="female">Female</label>
     
     
-    <label for="Text"><input type="checkbox" >Other</label>
+    <label for="Text"><input type="checkbox" name="other">Other</label>
     
 
-<button name ="register">Register</button>   
-
- 
-   
-    
-<!-- 
-<label>To Create:</label>
-
-    <input type="text" name="create" >
-
-    <button type="submit" name="createBtn">
-        Create
-    </button> -->
-
-    <label>To Read:</label>
-
-    <input type="text" name="read" >
-
-    <button type="submit" name="readBtn">
-        Read
-    </button>
-
-
-    <label>To Update:</label>
-
-    
-
-    
-    <input type="text" name="upd" >
-    <button type="submit" name="updateBtn">
-        Update
-    </button>
-
-    
-    <label>Enter ID To Delete:</label>
-
-    <input type="text" name="delete" >
-
-    <button type="submit" name="deleteBtn">
-        Delete</button> 
-
+<button name ="register" >Register</button>   
+  
 </form>
-
+<button  class="btn" btn_primary> <a href="display.php" >Display</a>
+</button>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
