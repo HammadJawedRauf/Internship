@@ -32,3 +32,15 @@ echo "Updated Successfully";
 header("Location:display.php");
 exit;
 ?>
+if ($id) {
+    // 2. Use UPDATE instead of INSERT, and use a placeholder (:status, :id) for security
+    $sql = "UPDATE student SET STATUS = :status WHERE STD_ID = :id";
+    
+    $stmt = $con->prepare($sql);
+    
+    // 3. Execute the statement by passing the variables safely
+    $stmt->execute([
+        ':status' => $NAME,
+        ':id'     => $id
+    ]);
+}
