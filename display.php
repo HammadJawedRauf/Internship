@@ -62,8 +62,10 @@ $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-<h1>Student Table</h1>
+
 <div class="table-container">
+  <h1>Student Table</h1>
+
   <button class="adds">
     <a href="SRS.PHP">Add Student</a>
 </button>
@@ -164,19 +166,21 @@ $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 .adds {
 display: block;
-margin: 1px auto;
-padding: 5px;
+/* margin: 1px auto; */
+padding: 7px;
+/* margin-right:20%;
+margin: 20px auto 0; */
 margin-left:5%;
-          
-          
- margin: 20px auto 0;
-
+/* margin-top:2%; */
+margin-bottom:-4%;
+margin-top:5%;
 
 }
 .adds a{
   color: black;
     text-decoration: none;
 text-align: left;
+
 }
 .blue-button {
     background-color: blue;
@@ -246,6 +250,7 @@ h1 {
     display: flex;
     justify-content: flex-end;
     margin-right: 25%;
+    margin-top:-3%;
 }
 
 .search-form input {
