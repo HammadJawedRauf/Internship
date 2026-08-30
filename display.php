@@ -1,62 +1,40 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$dbname = "student_registration";
-$password = "";
+require 'data.php';
+$sql = "SELECT * FROM student";
+$stmt = $con->query($sql);
 
-try {
+$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$id = filter_input(INPUT_GET, 'sf',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    $con = new PDO(
-        "mysql:host=$servername;dbname=$dbname",
-        $username,
-        $password
-    );
-
-    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-} catch (PDOException $e) {
-
-    echo "Connection Failed: " . $e->getMessage();
-}
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    if (isset($_POST['register'])) {
-
-        $NAME = $_POST["Sname"];
-        $PHONE = $_POST["Mname"];
-        $DEPARTMENT = $_POST["Tname"];
-        $DOB = $_POST["Dname"];
-        $ROLLNO = $_POST["Rname"];
-       
-
-        $sql = "INSERT INTO student
-                (NAME, ROLLNO, PHONE, DEPARTMENT, DOB ,STATUS)
-                VALUES (:Sname, :Rname, :Mname, :Tname, :Dname, :status )";
-
-        $stmt = $con->prepare($sql);
-
-        $stmt->execute([
-            ':Sname' => $NAME,
-            ':Mname' => $PHONE,
-            ':Tname' => $DEPARTMENT,
-            ':Dname' => $DOB,
-            ':Rname' => $ROLLNO,
-            ':status' => 'PENDING'
-
-        ]);
-
-        echo "<br>Student Registered successfully!";
-    }
-}
-
+if ($id == 'All') {
 
 $sql = "SELECT * FROM student";
 $stmt = $con->query($sql);
 
 $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+
+else if ($id !== null && $id !== '') {
+ $sql = "SELECT * FROM student 
+              WHERE STD_ID LIKE :id
+            OR NAME LIKE :id
+            OR ROLLNO LIKE :id
+            OR PHONE LIKE :id
+            OR DEPARTMENT LIKE :id
+            OR DOB LIKE :id
+            OR STATUS LIKE :id";
+
+     $stmt = $con->prepare($sql);
+  $stmt->execute([
+        ':id' => "%$id%"
+    ]); 
+ $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if(!$row){
+    echo"<br>Enter Valid ID";}
+}
 
 ?>
 
@@ -70,7 +48,7 @@ $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <a href="SRS.PHP">Add Student</a>
 </button>
 
-<form action="Search_Filter.php" method="GET" class="search-form">
+<form action="display.php" method="GET" class="search-form">
 
     <input
         type="text"
@@ -82,6 +60,7 @@ $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <button type="submit">
         Search ID
     </button>
+    
 
 </form><table>
   
@@ -153,7 +132,7 @@ $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </tr>
 
-<?php } ?>
+<?php  }?>
 
 </table>
 </div>
