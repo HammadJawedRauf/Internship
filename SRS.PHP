@@ -1,4 +1,41 @@
+<?php
+require 'data.php';
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    if (isset($_POST['register'])) {
+
+        $NAME = $_POST["Sname"];
+        $PHONE = $_POST["Mname"];
+        $DEPARTMENT = $_POST["Tname"];
+        $DOB = $_POST["Dname"];
+        $ROLLNO = $_POST["Rname"];
+       
+
+        $sql = "INSERT INTO student
+                (NAME, ROLLNO, PHONE, DEPARTMENT, DOB ,STATUS)
+                VALUES (:Sname, :Rname, :Mname, :Tname, :Dname, :status )";
+
+        $stmt = $con->prepare($sql);
+
+        $stmt->execute([
+            ':Sname' => $NAME,
+            ':Mname' => $PHONE,
+            ':Tname' => $DEPARTMENT,
+            ':Dname' => $DOB,
+            ':Rname' => $ROLLNO,
+            ':status' => 'PENDING'
+
+        ]);
+
+        echo "<br>Student Registered successfully!";
+        header("location:display.php");
+    exit;
+    }
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,7 +90,7 @@ display:block;
 </style>
 <body>
 
-    <fORM method = "POST" action="display.php" >
+    <fORM method = "POST" action="SRS.PHP" >
      <h1>Student Registration Form</h1>
    <label for="Name">Student Name</label>
    <input type="text" name="Sname"  required><br>  
@@ -88,20 +125,7 @@ display:block;
 <button name ="register" >Register</button>   
   
 </form>
-<button  class="btn" btn_primary> <a href="display.php" >Display</a>
-</button>
+<button  class="btn" btn_primary> <a href="display.php" >Display</a></button>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
 
