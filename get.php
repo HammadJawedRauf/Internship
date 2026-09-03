@@ -1,40 +1,32 @@
 <?php
+require 'api.php';
+header("Content-Type: application/json");
 
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
+$headers = getallheaders();
 
-    $json = file_get_contents("api.json");
-    $students = json_decode($json, true);
 
-    $id = $_GET["id"] ?? null;
+$auth = $headers['Authorization'];
 
-    if ($id !== null) {
+$validToken = "my-secret-token-123";
 
-        foreach ($students as $student) {
+if ($auth !== "Bearer " . $validToken) {
 
-            if ((string)$student["id"] === (string)$id) {
+    http_response_code(401);
 
-                echo json_encode([
-                    "status" => "success",
-                    "data" => $student
-                ]);
+    echo json_encode([
+        "status" => "error",
+        "message" => "Invalid token"
+    ]);
 
-                exit;
-            }
-        }
-
-        echo json_encode([
-            "status" => "error",
-            "message" => "Student not found"
-        ]);
-
-    } else {
-
-        echo json_encode([
-            "status" => "success",
-            "data" => $students
-        ]);
-    }
+    exit;
 }
+
+
+$sql = $con->prepare("SELECT * FROM student");
+$sql->execute();
+$row = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+echo json_encode([ "status" => "success", "message" => "Student updated successfully", "data" => $row ]);
 
 
 
